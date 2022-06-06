@@ -255,6 +255,10 @@ div#content {
   }
 }
 
+div#content * {
+  text-align: justify;
+}
+
 div#content span.md-link {
   color: #707070;
   text-decoration: underline;
