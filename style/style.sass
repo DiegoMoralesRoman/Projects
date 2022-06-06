@@ -1,0 +1,345 @@
+$back-dark: #202020
+$back-light: #FFFFFF
+$highlight: #E60576 
+$light-gray: #e5e5e5
+$gray: #707070
+$dark-gray: #3F3F3F
+
+$max-width: 800px
+
+$top-bottom-margin: .5rem
+
+body
+    background-color: $back-light
+    overflow-y: hidden
+    overflow-x: hidden
+    max-height: 100vh
+    display: flex
+    flex-direction: column
+    *::-webkit-scrollbar
+        width: .5em
+        height: .5em
+        z-index: 0 
+    *::-webkit-scrollbar-track
+        background-color: $light-gray
+    *::-webkit-scrollbar-thumb
+        background-color: $highlight 
+        border-radius: 100vw
+
+    
+*
+    padding: 0
+    margin: 0
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif
+    color: $back-dark
+
+// Sidebars
+.bar
+    $base-height: 4rem
+    width: 100vw
+    height: $base-height 
+    background-color: $back-dark
+    transition: height .2s
+    position: relative
+    top: 0
+    box-sizing: border-box
+    z-index: 1
+    flex-grow: 0
+    flex-shrink: 0
+
+    &:hover
+        height: $base-height + 1.5rem 
+        @media screen and ( max-width: $max-width )
+            height: $base-height + 3rem
+        .exp-indicator
+            opacity: 0
+            width: 0
+        .links
+            opacity: 1
+            pointer-events: all
+
+    &.extended
+        height: 100vh
+
+    .title
+        color: $back-light
+        position: absolute
+        width: auto
+        font-size: 1.5rem
+        text-align: right
+        display: block
+        width: 100%
+        padding-right: 2rem
+        padding-top: .75rem
+        right: 0
+
+        transition: color .2s
+        &:hover
+            color: $highlight
+
+        @media screen and ( max-width: $max-width)
+            text-align: center
+            padding-right: 0
+
+    .exp-indicator
+        $size: .5rem
+        width: 10vw
+        height: $size 
+        background-color: $back-light
+        border-radius: 100vw
+        position: absolute
+
+        margin-bottom: .3rem
+
+        transition: all .2s
+        bottom: 0
+
+    .links
+        opacity: 0
+        pointer-events: none
+
+        display: flex
+        flex-wrap: wrap
+        position: absolute
+        bottom: 0
+        margin-bottom: 1rem
+        $lateral-margin: .75rem
+        margin-left: $lateral-margin 
+        margin-right: $lateral-margin
+        
+        transition: all .2s
+        & *
+            color: $back-light 
+            margin-left: 1rem
+            padding-left: .25rem
+            padding-right: .25rem
+            border-bottom: 1.5px solid $back-light
+
+// Utils
+.center
+    transform: translateX(-50%)
+    margin-left: 50%
+
+.loader
+    position: absolute
+    top: 50%
+    left: 50%
+    width: 5rem
+    height: 5rem
+    border-radius: 100vw
+    transform: translate(-50%, -50%)
+    border: .4rem solid $light-gray
+    border-bottom: .4rem solid $highlight
+    animation: rotate infinite 1s linear
+    transition: opacity 1s
+    &.hidden
+        opacity: 0
+    &:not(.hidden)
+        opacity: 1
+        
+
+    @keyframes rotate
+        100%
+            transform: translate(-50%, -50%) rotate(360deg)
+
+.wrapper
+    $toggler-height: 2rem
+    overflow: hidden
+    margin-top: $top-bottom-margin
+    margin-bottom: $top-bottom-margin
+
+    .toggler
+        width: 100%
+        height: 2rem
+        background-color: $back-dark 
+        color: $back-light
+        display: flex
+        justify-content: center
+        align-items: center
+        padding: .25rem
+        box-sizing: border-box
+        position: relative
+
+        transition: all .2s
+        &:hover
+            color: $highlight
+            font-weight: bolder
+
+        &::before
+            transition: transform .2s
+            position: absolute
+            transform: translateY(-50%)
+            top: 50%
+            left: 1rem 
+            color: $back-light
+            font-weight: normal
+
+            content: "˃"
+
+    &.extended .toggler::before
+        transform: translateY(-50%) rotate(90deg)
+            
+
+    transition: max-height 1s
+        
+
+// ---------------
+// Markdown decorations
+// ---------------
+div#content
+    $top-bottom-margin: .75rem
+
+    padding: 2rem
+    $lateral-padding: 10rem
+    padding-left: $lateral-padding 
+    padding-right: $lateral-padding
+    @media screen and ( max-width: $max-width )
+        padding-left: 2rem
+        padding-right: 2rem
+    overflow-y: auto
+    position: relative
+
+    
+    span.md-link
+        color: $gray
+        text-decoration: underline
+
+    img.md-image
+        display: block
+        width: 50%
+        max-height: 50vw
+        margin: auto
+        margin-top: 2rem
+        margin-bottom: 2rem
+        border-radius: 1rem
+        box-shadow: 4px 4px 10px black
+
+        @media screen and ( max-width: $max-width)
+            width: 90%
+        
+
+        transition: transform .25s, width .2s, height .2s
+        &:hover
+            transform: scale(1.01)
+
+    h1, h2, h3, h4, h5
+        margin-bottom: .25em
+        margin-top: .25em
+        color: $highlight
+
+    ul
+        margin-top: $top-bottom-margin
+        margin-bottom: $top-bottom-margin
+        margin-left: 6ch
+
+    // For includes
+    .placeholder:not(.loaded)
+        $margins: .5rem
+        margin-top: $margins
+        margin-bottom: $margins
+        width: 100%
+        height: 25px
+        animation:  placeholder-animation 1s infinite alternate
+        @keyframes placeholder-animation
+            0%
+                background-color: $back-light
+            100%
+                background-color: $light-gray
+        &.failed
+            background-color: $light-gray
+            animation: none
+            background-color: transparent
+            
+            &::before
+                @keyframes placeholder_error_animation
+                    0%
+                        opacity: 1
+                    100%
+                        opacity: 0.25
+
+                animation: placeholder_error_animation 1s infinite alternate linear
+                margin-left: 1rem
+                content: "[Error loading resource]"
+                color: red
+    .placeholder
+        white-space: pre
+        display: inline-block
+        max-width: 100%
+        overflow-x: auto
+        &.full-size
+            width: 100%
+
+    .code-pre
+        &::-webkit-scrollbar-track
+            background-color: $back-dark 
+
+        max-height: 75vh
+        overflow: auto
+        background-color: $back-dark
+        padding: 1rem
+        position: relative
+        margin-top:  $top-bottom-margin
+        margin-bottom: $top-bottom-margin
+        border-bottom: .5em solid $highlight
+
+        &::-webkit-scrollbar
+            height: 0
+
+        &:hover .language
+            opacity: 0.1
+
+        .language
+            position: sticky
+            bottom: 0
+            left: 0
+            padding: .5rem
+            color: $back-light
+            background-color: $highlight
+            display: inline
+            border-radius: 100vw
+            transition: opacity .2s
+        code
+            *
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif
+
+            background-color: transparent
+            color: $back-light
+            .hljs-params
+                color: $back-light
+    
+    // Single lines of code
+    code
+        background-color: $light-gray
+
+
+    table
+        position: relative
+        border-spacing: 0
+        margin-top: $top-bottom-margin
+        margin-bottom: $top-bottom-margin
+        td, th
+            padding: .25rem
+            $lateral-padding: 1rem
+            padding-right: $lateral-padding
+            padding-left: $lateral-padding
+        thead
+            background-color: $back-dark
+            th
+                color: $back-light
+        tbody
+            td
+                border-bottom: 1px solid $light-gray 
+    
+    hr
+        margin-top: $top-bottom-margin
+        margin-bottom: $top-bottom-margin
+        border: none
+        background-color: $light-gray
+        height: 2px 
+
+
+    blockquote
+        margin-left: 6ch
+        background-color: $light-gray
+        padding: 1rem
+        border-left: .5rem solid $highlight
